@@ -1,0 +1,236 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Databases
+  account-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: account_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - account-data:/var/lib/postgresql/data
+    networks:
+      - fintech-network
+
+  wallet-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: wallet_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - wallet-data:/var/lib/postgresql/data
+    networks:
+      - fintech-network
+
+  transaction-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: transaction_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - transaction-data:/var/lib/postgresql/data
+    networks:
+      - fintech-network
+
+  notification-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: notification_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5435:5432"
+    volumes:
+      - notification-data:/var/lib/postgresql/data
+    networks:
+      - fintech-network
+
+  # MongoDB
+  categorization-db:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - fintech-network
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - fintech-network
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Microservices
+  account-service:
+    build:
+      context: ../
+      dockerfile: backend/account-service/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      DB_HOST: account-db
+      DB_PORT: 5432
+      DB_NAME: account_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - account-db
+      - rabbitmq
+    networks:
+      - fintech-network
+
+  wallet-service:
+    build:
+      context: ../
+      dockerfile: backend/wallet-service/Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      DB_HOST: wallet-db
+      DB_PORT: 5432
+      DB_NAME: wallet_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - wallet-db
+      - rabbitmq
+    networks:
+      - fintech-network
+
+  transaction-service:
+    build:
+      context: ../
+      dockerfile: backend/transaction-service/Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      DB_HOST: transaction-db
+      DB_PORT: 5432
+      DB_NAME: transaction_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+      WALLET_SERVICE_URL: http://wallet-service:8082
+    depends_on:
+      - transaction-db
+      - rabbitmq
+      - wallet-service
+    networks:
+      - fintech-network
+
+  categorization-service:
+    build:
+      context: ../
+      dockerfile: backend/categorization-service/Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      MONGO_HOST: categorization-db
+      MONGO_PORT: 27017
+      MONGO_DB: categorization_db
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - categorization-db
+      - rabbitmq
+    networks:
+      - fintech-network
+
+  notification-service:
+    build:
+      context: ../
+      dockerfile: backend/notification-service/Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      DB_HOST: notification-db
+      DB_PORT: 5432
+      DB_NAME: notification_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - notification-db
+      - rabbitmq
+    networks:
+      - fintech-network
+
+  gateway-service:
+    build:
+      context: ../
+      dockerfile: backend/gateway-service/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ACCOUNT_SERVICE_URL: http://account-service:8081
+      WALLET_SERVICE_URL: http://wallet-service:8082
+      TRANSACTION_SERVICE_URL: http://transaction-service:8083
+    depends_on:
+      - account-service
+      - wallet-service
+      - transaction-service
+    networks:
+      - fintech-network
+
+  # Frontend
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - gateway-service
+    networks:
+      - fintech-network
+
+volumes:
+  account-data:
+  wallet-data:
+  transaction-data:
+  notification-data:
+  mongo-data:
+  rabbitmq-data:
+
+networks:
+  fintech-network:
+    driver: bridge
