@@ -86,7 +86,7 @@ services:
   # Microservices
   account-service:
     build:
-      context: ../
+      context: ../../
       dockerfile: backend/account-service/Dockerfile
     ports:
       - "8081:8081"
@@ -108,7 +108,7 @@ services:
 
   wallet-service:
     build:
-      context: ../
+      context: ../../
       dockerfile: backend/wallet-service/Dockerfile
     ports:
       - "8082:8082"
@@ -130,7 +130,7 @@ services:
 
   transaction-service:
     build:
-      context: ../
+      context: ../../
       dockerfile: backend/transaction-service/Dockerfile
     ports:
       - "8083:8083"
@@ -154,7 +154,7 @@ services:
 
   categorization-service:
     build:
-      context: ../
+      context: ../../
       dockerfile: backend/categorization-service/Dockerfile
     ports:
       - "8084:8084"
@@ -174,7 +174,7 @@ services:
 
   notification-service:
     build:
-      context: ../
+      context: ../../
       dockerfile: backend/notification-service/Dockerfile
     ports:
       - "8085:8085"
@@ -196,7 +196,7 @@ services:
 
   gateway-service:
     build:
-      context: ../
+      context: ../../
       dockerfile: backend/gateway-service/Dockerfile
     ports:
       - "8080:8080"
@@ -214,7 +214,7 @@ services:
   # Frontend
   frontend:
     build:
-      context: ../frontend
+      context: ../../frontend
       dockerfile: Dockerfile
     ports:
       - "3000:80"
