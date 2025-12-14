@@ -1,0 +1,15 @@
+com\fintech\shared\dto\NotificationDTO$NotificationDTOBuilder.class
+com\fintech\shared\dto\UserDTO$UserDTOBuilder.class
+com\fintech\shared\events\TransactionFailedEvent.class
+com\fintech\shared\dto\TransactionDTO.class
+com\fintech\shared\events\TransactionCompletedEvent$TransactionCompletedEventBuilder.class
+com\fintech\shared\dto\WalletDTO$WalletDTOBuilder.class
+com\fintech\shared\events\TransactionCategorizedEvent.class
+com\fintech\shared\config\RabbitMQConfig.class
+com\fintech\shared\dto\UserDTO.class
+com\fintech\shared\events\TransactionFailedEvent$TransactionFailedEventBuilder.class
+com\fintech\shared\dto\NotificationDTO.class
+com\fintech\shared\events\TransactionCompletedEvent.class
+com\fintech\shared\dto\WalletDTO.class
+com\fintech\shared\dto\TransactionDTO$TransactionDTOBuilder.class
+com\fintech\shared\events\TransactionCategorizedEvent$TransactionCategorizedEventBuilder.class

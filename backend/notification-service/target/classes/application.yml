@@ -14,16 +14,16 @@ spring:
     show-sql: true
   
   mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:}
-    password: ${MAIL_PASSWORD:}
+    host: mailhog
+    port: 1025
+    username: null
+    password: null
     properties:
       mail:
         smtp:
-          auth: true
+          auth: false
           starttls:
-            enable: true
+            enable: false
   
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}

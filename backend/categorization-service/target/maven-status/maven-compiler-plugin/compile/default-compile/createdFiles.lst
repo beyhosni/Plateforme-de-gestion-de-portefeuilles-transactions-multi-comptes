@@ -1,0 +1,5 @@
+com\fintech\categorization\CategorizationServiceApplication.class
+com\fintech\categorization\repository\CategoryRuleRepository.class
+com\fintech\categorization\document\CategoryRule.class
+com\fintech\categorization\service\CategorizationService.class
+com\fintech\categorization\document\CategoryRule$CategoryRuleBuilder.class

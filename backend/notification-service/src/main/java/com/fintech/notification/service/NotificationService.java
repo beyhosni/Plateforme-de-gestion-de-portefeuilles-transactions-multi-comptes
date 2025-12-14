@@ -75,11 +75,19 @@ public class NotificationService {
             log.info("Notification: {} - {}", subject, message);
 
             // In production, send actual email
-            // SimpleMailMessage mailMessage = new SimpleMailMessage();
-            // mailMessage.setTo(userEmail);
-            // mailMessage.setSubject(subject);
-            // mailMessage.setText(message);
-            // mailSender.send(mailMessage);
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            // For demo purposes, we construct a dummy email. In prod, we would fetch
+            // UserDTO from AccountService
+            String userEmail = "user" + (message.hashCode() % 1000) + "@example.com";
+            if (message.contains("Transaction ID")) {
+                // Try to extract userId if possible or just use a default
+                userEmail = "user@example.com";
+            }
+
+            mailMessage.setTo(userEmail);
+            mailMessage.setSubject(subject);
+            mailMessage.setText(message);
+            mailSender.send(mailMessage);
 
             log.info("Notification sent successfully");
         } catch (Exception e) {
