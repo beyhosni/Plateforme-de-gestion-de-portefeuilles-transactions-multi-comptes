@@ -17,7 +17,7 @@ COPY backend/notification-service/pom.xml .
 RUN mvn dependency:go-offline
 
 COPY backend/notification-service/src ./src
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -B
 
 # Runtime stage
 FROM eclipse-temurin:23-jre-alpine
