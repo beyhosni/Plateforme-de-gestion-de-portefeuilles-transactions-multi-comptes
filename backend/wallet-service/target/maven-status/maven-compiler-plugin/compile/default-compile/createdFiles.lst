@@ -1,9 +1,0 @@
-com\fintech\wallet\entity\Wallet$WalletBuilder.class
-com\fintech\wallet\controller\WalletController.class
-com\fintech\wallet\repository\WalletRepository.class
-com\fintech\wallet\dto\CreateWalletRequest.class
-com\fintech\wallet\entity\WalletType.class
-com\fintech\wallet\dto\CreateWalletRequest$CreateWalletRequestBuilder.class
-com\fintech\wallet\WalletServiceApplication.class
-com\fintech\wallet\entity\Wallet.class
-com\fintech\wallet\service\WalletService.class

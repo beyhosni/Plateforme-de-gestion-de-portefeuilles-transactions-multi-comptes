@@ -1,8 +1,0 @@
-C:\Users\33656\Documents\Workspace\Plateforme-de-gestion-de-portefeuilles-transactions-multi-comptes\backend\shared-library\src\main\java\com\fintech\shared\dto\UserDTO.java
-C:\Users\33656\Documents\Workspace\Plateforme-de-gestion-de-portefeuilles-transactions-multi-comptes\backend\shared-library\src\main\java\com\fintech\shared\dto\TransactionDTO.java
-C:\Users\33656\Documents\Workspace\Plateforme-de-gestion-de-portefeuilles-transactions-multi-comptes\backend\shared-library\src\main\java\com\fintech\shared\events\TransactionCompletedEvent.java
-C:\Users\33656\Documents\Workspace\Plateforme-de-gestion-de-portefeuilles-transactions-multi-comptes\backend\shared-library\src\main\java\com\fintech\shared\events\TransactionCategorizedEvent.java
-C:\Users\33656\Documents\Workspace\Plateforme-de-gestion-de-portefeuilles-transactions-multi-comptes\backend\shared-library\src\main\java\com\fintech\shared\dto\NotificationDTO.java
-C:\Users\33656\Documents\Workspace\Plateforme-de-gestion-de-portefeuilles-transactions-multi-comptes\backend\shared-library\src\main\java\com\fintech\shared\config\RabbitMQConfig.java
-C:\Users\33656\Documents\Workspace\Plateforme-de-gestion-de-portefeuilles-transactions-multi-comptes\backend\shared-library\src\main\java\com\fintech\shared\events\TransactionFailedEvent.java
-C:\Users\33656\Documents\Workspace\Plateforme-de-gestion-de-portefeuilles-transactions-multi-comptes\backend\shared-library\src\main\java\com\fintech\shared\dto\WalletDTO.java
